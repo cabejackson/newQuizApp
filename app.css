@@ -1,11 +1,6 @@
-/* Your styles should be mobile-first and responsive */
 
-/** 
-  * If you are unclear on how to utilize a mobile-first, responsive technique to write your CSS, here is an example: 
-  *
-  * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
-  *
-*/ 
+
+/* --- General Layout  ---- */
 html{
   margin: 0px;
   padding: 0px;
@@ -15,12 +10,14 @@ html{
 body{
   background-color: #3B0D11;
   margin:0px;
-  text-align: center;
 }
 
 header, div.bottom {
   background-color:#585B56 ;
+  padding: 30px;
 }
+
+
 
 div.bottom h3, div.bottom p{
   margin: 0px;
@@ -30,10 +27,91 @@ div.bottom h3, div.bottom p{
 
 Header h1{
   margin: 0px;
-  text-align: center;
   color:#ffecdb;
+  font-size: 50px;
 }
 
 main {
   color:#ffecdb;
+}
+/*--Font sizing --*/
+
+h2{
+  font-size: 35px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+p{
+  font-size: 20px;
+}
+
+form{
+  font-family: 'Markazi Text', serif;
+  font-size: 20px;
+}
+
+/*--Flex-box --*/
+
+form {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1, h3, p, span, h2, .btn{
+  display:flex;
+  justify-content: center;
+  font-family: 'Markazi Text', serif;
+}
+
+main img{
+  display: flex;
+  width: 100%;
+}
+
+h3 span {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/*Button Styling */
+button {
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: solid whitesmoke;
+  background-color: #3B0D11;
+  color:whitesmoke;
+  font-family: 'Markazi Text', serif;
+  font-size: 30px;
+  margin: 20px;
+}
+button:hover{background-color:black}
+
+
+/*---Media Query --- */
+
+@media all and (min-width: 800px){
+  header h1 {
+    font-size: 80px;
+  }
+  h2{
+    font-size: 50px;
+  }
+  
+  h3 {
+    font-size: 40px;
+  }
+  
+  p{
+    font-size: 28px;
+  }
+
+  form {
+    font-size: 28px;
+  }
+
 }

@@ -75,32 +75,26 @@ let isFeedback = false;
 
 
 
-/*
-TODO:
-Combine render and renderfeedback
-clean up the page alignment between results and questions in css --?
-css for mobile first design
-css for design and accessibility
-*/
-
 // Adds html elements to be rendered by renderPage
 function addHtml() {
   let question = store.questions[store.questionNumber];
   let startPage = `<div>
   <img src="photos/main-page.jpg" alt="The Office Room"><br>
+  <div class ='btn'>
   <button id= "start" type= "submit" class= 'mainPage'>Start The Quiz!</button>
-  <p>Welcome to a difficult quiz on the hit TV show The Office. This Quiz is very hard and you will be graded!</p>
+  </div>
+  <p>Welcome to a quiz on the hit TV show The Office. This quiz was developed with: HTML, CSS, JavaScript, and jQuery. 
+  If you like The Office, this will be a fun task!</p>
   <img src="photos/dwight-main.jpg" alt="Dwight Main">
 </div>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>
 `;
 
-  // <img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
-
   let questionPage = `<div class ='question-box'>
 ${questionPhoto()}
-<div class= 'question'>${question.question}</div>
+<div class= 'question'><p>${question.question}</p></div>
 <form id='questions'>
+<div class = 'radiogroup'>
     <input id='answer1' name = 'answers' type= 'radio' value = '${question.answers[0]}' required>
     <label for= 'answer1'>${question.answers[0]}</label><br>
     <input id='answer2' name = 'answers' type= 'radio' value = '${question.answers[1]}' required>
@@ -109,9 +103,10 @@ ${questionPhoto()}
     <label for= 'answer3'>${question.answers[2]}</label><br>
     <input id='answer4' name = 'answers' type= 'radio' value = '${question.answers[3]}' required>
     <label for= 'answer4'>${question.answers[3]}</label><br>
+</div>    
     <button class = 'submit-answer' type = 'submit'>Submit Answer!</button>
 </form>
-<h3><span>Question #${store.questionNumber + 1} / 5 </span><span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+<h3><span>Question #${store.questionNumber + 1} / 5</h3> <h3>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</h3>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
 
@@ -157,9 +152,11 @@ function results() {
 
   let goodResult = `<div>
 <img src= "photos/happy-stanley.png" alt="Happy Stanley">
-<h2>Nice Job!</h2>
-<p>${(store.score / 5) * 100}%</p>
+<h2>Nice job you really know about The Office!</h2>
+<h2>${(store.score / 5) * 100}%</h2>
+<div class ='btn'>
 <button class="button-restart-quiz">START QUIZ AGAIN!</button>
+</div>
 </div> 
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
@@ -167,8 +164,10 @@ function results() {
     `<div>
 <img src= "photos/did-i-stutter.jpg" alt="Sad Stanley">
 <h2>You failed!</h2>
-<p>${(store.score / 5) * 100}%</p>
+<h2>${(store.score / 5) * 100}%</h2>
+<div class ='btn'>
 <button class="button-restart-quiz">START QUIZ AGAIN!</button>
+</div>
 </div>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div> `;
 
@@ -186,38 +185,45 @@ function addHtmlFeedback() {
   let question = store.questions[store.questionNumber];
   let correct = `<div class ='question-box'>
   ${questionPhoto()}
-<div class= 'question'>${question.question}</div>
-<div class ='reults'>Great Job! ${question.correctAnswer} is correct!</div>
+<div class= 'question'><p>${question.question}</p></div>
+<div class ='results'><p>Great Job! ${question.correctAnswer} is correct!<p></div>
+<div class ='btn'>
 <button id= "next" type= "submit" class= 'next-question'>Next Question!</button>
-<h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+</div>
+<h3>Question #${store.questionNumber + 1} / 5 </h3>
+<h3>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</h3>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
   let incorrect = `<div class ='question-box'>
   ${questionPhoto()}
-<div class= 'question'>${question.question}</div>
-<div class ='reults'>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</div>
+<div class= 'question'><p>${question.question}</p></div>
+<div class ='results'><p>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</p></div>
+<div class ='btn'>
 <button id= "next" type= "submit" class= 'next-question'>Next Question!</button>
-<h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+</div>
+<h3>Question #${store.questionNumber + 1} / 5 </h3> <h3> Your Score: ${store.score} Correct, and ${wrong} Incorrect!</h3>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
   let getResultsButtonIncorrect = `<div class ='question-box'>
   ${questionPhoto()}
-<div class= 'question'>${question.question}</div>
-<div class ='reults'>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</div>
+<div class= 'question'><p>${question.question}</p></div>
+<div class ='results'><p>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</p></div>
+<div class ='btn'>
 <button id= "next" type= "submit" class= 'next-question'>Get Results!</button>
-<h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+</div>
+<h3>Question #${store.questionNumber + 1} / 5 </h3>
+<h3> Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
   let getResultsButtonCorrect = `<div class ='question-box'>
   ${questionPhoto()}
-<div class= 'question'>${question.question}</div>
-<div class ='reults'>Great Job! ${question.correctAnswer} is correct!</div>
+<div class= 'question'><p>${question.question}</p></div>
+<div class ='results'><p>Great Job! ${question.correctAnswer} is correct!</p></div>
+<div class ='btn'>
 <button id= "next" type= "submit" class= 'next-question'>Get Results!</button>
-<h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+</div>
+<h3>Question #${store.questionNumber + 1} / 5 </h3>
+<h3>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</h3>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
   if (isCorrect === true && store.questionNumber === 4) {
@@ -244,7 +250,7 @@ function startQuiz() {
   });
 }
 
-//The OG himself, renderus ulmitius. This function renders the page for non feedback renders.
+//This function renders the page for every aspect.
 function renderPage() {
   if (isFeedback === false) {
     let html = addHtml();
