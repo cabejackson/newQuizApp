@@ -10,7 +10,7 @@ Mark Marcello
 ## About Me
 
 *[GitHub Profile](https://github.com/cabejackson)
-*[LinkedIn](https://www.linkedin.com/in/mark-marcello-8896481b1)
+*[LinkedIn](https://www.linkedin.com/in/caleb-jackson-cabe/)
 
 ## Special Thanks
 
