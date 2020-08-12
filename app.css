@@ -6,16 +6,34 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */ 
+html{
+  margin: 0px;
+  padding: 0px;
+  background-color:#585B56;
+}
 
 body{
-    background-color: grey;
-    margin:0px;
-    text-align: center;
-  }
-  
-  Header h1{
-    background-color: lightsteelblue;
-    margin: 0px;
-    text-align: center;
-  }
-  
+  background-color: #3B0D11;
+  margin:0px;
+  text-align: center;
+}
+
+header, div.bottom {
+  background-color:#585B56 ;
+}
+
+div.bottom h3, div.bottom p{
+  margin: 0px;
+  padding: 0px;
+  color:#ffecdb;
+}
+
+Header h1{
+  margin: 0px;
+  text-align: center;
+  color:#ffecdb;
+}
+
+main {
+  color:#ffecdb;
+}

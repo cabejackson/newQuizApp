@@ -1,5 +1,5 @@
-'use strict';
 //Our data including questions!
+'use strict';
 const store = {
 
   questions: [
@@ -64,26 +64,23 @@ let wrong = 0;
 
 let isCorrect = true;
 
+let pictureArr = [`<img src= 'photos/dwight-and-fam.jpg' alt='Dwight and his family'></img>`,
+  `<img src="photos/kelly-ryan.png" alt='Kelly and Ryan'></img>`,
+  `<img src='photos/baby-name.jpg' alt='Baby Question'></img>`,
+  `<img src='photos/pam-roy.jpg' alt='Pam and Roy'></img>`,
+  `<img src='photos/wedding-question.jpg' alt='Wedding Question'></img>`
+];
+
+let isFeedback = false;
+
+
+
 /*
-Change log:
---These are done :) --
-tracking questions by question number 
-assign counter for home, question pages, end 
-assign correct feedback + values
-restart quiz works!
-At the end it now displays your score %
-
-
-
 TODO:
-create an array of images to link to the correct question#
-create a badResult in addHtml for failing grades -- createed a results function
-require answers -- added require to radio buttons
-Find a way to make the next question button on q5 feedback say Results instead of next question (This will be REALLL FUN) -- added other conditions
+Combine render and renderfeedback
 clean up the page alignment between results and questions in css --?
 css for mobile first design
 css for design and accessibility
-
 */
 
 // Adds html elements to be rendered by renderPage
@@ -94,11 +91,14 @@ function addHtml() {
   <button id= "start" type= "submit" class= 'mainPage'>Start The Quiz!</button>
   <p>Welcome to a difficult quiz on the hit TV show The Office. This Quiz is very hard and you will be graded!</p>
   <img src="photos/dwight-main.jpg" alt="Dwight Main">
-</div>`;
+</div>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>
+`;
 
+  // <img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
 
   let questionPage = `<div class ='question-box'>
-<img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
+${questionPhoto()}
 <div class= 'question'>${question.question}</div>
 <form id='questions'>
     <input id='answer1' name = 'answers' type= 'radio' value = '${question.answers[0]}' required>
@@ -111,24 +111,11 @@ function addHtml() {
     <label for= 'answer4'>${question.answers[3]}</label><br>
     <button class = 'submit-answer' type = 'submit'>Submit Answer!</button>
 </form>
-<h3><span>Question #${store.questionNumber + 1} / 5 </span><span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>`;
+<h3><span>Question #${store.questionNumber + 1} / 5 </span><span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
-//moved this to results function
-//   let goodResult = `<div>
-// <img src= "photos/happy-stanley.png" alt="Happy Stanley">
-// <h2>Nice Job!</h2>
-// <p>${(store.score / 5) * 100}%</p>
-// <button class="button-restart-quiz">START QUIZ AGAIN!</button>
-// </div> `;
 
-// let badResult = 
-// `<div>
-// <img src= "photos/stanley-fail.png" alt="Sad Stanley">
-// <h2>You failed!</h2>
-// <p>${(store.score / 5) * 100}%</p>
-// <button class="button-restart-quiz">START QUIZ AGAIN!</button>
-// </div> `;
-//what is this counter counting?
+
   if (counter === 1) {
     return startPage;
   }
@@ -137,36 +124,58 @@ function addHtml() {
     return questionPage;
   }
 
-  if (counter === 3){
+  if (counter === 3) {
     return results();
   }
-  
+
 }
 
+
+function questionPhoto() {
+  if (store.questionNumber === 0) {
+    return pictureArr[0];
+  }
+  if (store.questionNumber === 1) {
+    return pictureArr[1];
+  }
+  if (store.questionNumber === 2) {
+    return pictureArr[2];
+  }
+  if (store.questionNumber === 3) {
+    return pictureArr[3];
+  }
+  if (store.questionNumber === 4) {
+    return pictureArr[4];
+  }
+
+}
+
+
 //function that gives goodResult vs badResult on last page
-function results (){
+function results() {
   let results = store.score;
-  //console.log(results, 'results are coming up!');
 
   let goodResult = `<div>
 <img src= "photos/happy-stanley.png" alt="Happy Stanley">
 <h2>Nice Job!</h2>
 <p>${(store.score / 5) * 100}%</p>
 <button class="button-restart-quiz">START QUIZ AGAIN!</button>
-</div> `;
+</div> 
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
-let badResult = 
-`<div>
-<img src= "photos/stanley-fail.jpg" alt="Sad Stanley">
+  let badResult =
+    `<div>
+<img src= "photos/did-i-stutter.jpg" alt="Sad Stanley">
 <h2>You failed!</h2>
 <p>${(store.score / 5) * 100}%</p>
 <button class="button-restart-quiz">START QUIZ AGAIN!</button>
-</div> `;
+</div>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div> `;
 
-  if (results >= 4){
+  if (results >= 4) {
     return goodResult;
   }
-  else{
+  else {
     return badResult;
   }
 
@@ -176,40 +185,44 @@ let badResult =
 function addHtmlFeedback() {
   let question = store.questions[store.questionNumber];
   let correct = `<div class ='question-box'>
-<img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
+  ${questionPhoto()}
 <div class= 'question'>${question.question}</div>
 <div class ='reults'>Great Job! ${question.correctAnswer} is correct!</div>
 <button id= "next" type= "submit" class= 'next-question'>Next Question!</button>
 <h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>`;
+<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
-  let Incorrect = `<div class ='question-box'>
-<img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
+  let incorrect = `<div class ='question-box'>
+  ${questionPhoto()}
 <div class= 'question'>${question.question}</div>
 <div class ='reults'>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</div>
 <button id= "next" type= "submit" class= 'next-question'>Next Question!</button>
 <h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>`;
+<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
   let getResultsButtonIncorrect = `<div class ='question-box'>
-<img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
+  ${questionPhoto()}
 <div class= 'question'>${question.question}</div>
 <div class ='reults'>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</div>
 <button id= "next" type= "submit" class= 'next-question'>Get Results!</button>
 <h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>`;
+<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
+
   let getResultsButtonCorrect = `<div class ='question-box'>
-<img src="photos/kelly-ryan.png" alt="Kelly and Ryan">
+  ${questionPhoto()}
 <div class= 'question'>${question.question}</div>
 <div class ='reults'>Great Job! ${question.correctAnswer} is correct!</div>
 <button id= "next" type= "submit" class= 'next-question'>Get Results!</button>
 <h3><span>Question #${store.questionNumber + 1} / 5 </span>
-<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>`;
+<span>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</span></h3>
+<div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
   if (isCorrect === true && store.questionNumber === 4) {
-    //console.log(store.questionNumber, 'is the question number ');
     return getResultsButtonCorrect;
-  } 
+  }
   else if (isCorrect === false && store.questionNumber === 4) {
     return getResultsButtonIncorrect;
   }
@@ -217,16 +230,11 @@ function addHtmlFeedback() {
     return correct;
   }
   else {
-    return Incorrect;
+    return incorrect;
   }
 }
 
-//renders the feedback options prior to advancing to the next question
-function renderFeedback() {
-  let html = addHtmlFeedback();
-  $('main').html(html);
-  
-}
+
 //simple function that starts the quiz from the main page.
 function startQuiz() {
   $('main').on('click', '.mainPage', function (event) {
@@ -238,10 +246,17 @@ function startQuiz() {
 
 //The OG himself, renderus ulmitius. This function renders the page for non feedback renders.
 function renderPage() {
-  let html = addHtml();
-  $('main').html(html);
+  if (isFeedback === false) {
+    let html = addHtml();
+    $('main').html(html);
+  }
+  if (isFeedback === true) {
+    let html = addHtmlFeedback();
+    $('main').html(html);
+  }
 
 }
+
 
 //This function tracks your score on submiting your answer and moves you forward.
 function submitAnswer() {
@@ -251,11 +266,13 @@ function submitAnswer() {
     if (store.questions[store.questionNumber].correctAnswer === answer) {
       isCorrect = true;
       store.score++;
-      renderFeedback();
+      isFeedback = true;
+      renderPage();
     } else {
       wrong++;
       isCorrect = false;
-      renderFeedback();
+      isFeedback = true;
+      renderPage();
     }
   });
 }
@@ -265,9 +282,11 @@ function resumeQuiz() {
     event.preventDefault();
     if (store.questionNumber < 4) {
       store.questionNumber++;
+      isFeedback = false;
       renderPage();
     } else {
       counter++;
+      isFeedback = false;
       renderPage();
     }
   });
