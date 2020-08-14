@@ -308,6 +308,21 @@ function restartQuiz() {
     renderPage();
   });
 }
+//revision - created event handler for all the events
+function eventHandler(event){
+  if ($('main').on('click', '.mainPage')){
+    startQuiz();
+  }
+  else if ($('main').on('click', '.button-restart-quiz')) {
+    restartQuiz();
+  }
+  else if ($('main').on('submit', 'form#questions')){
+    submitAnswer();
+  }
+  else if($('main').on('click', '.next-question')){
+    resumeQuiz();
+  }
+}
 //The main function holding all the functions that need to be initialized!
 function main() {
   renderPage();
