@@ -308,7 +308,12 @@ function restartQuiz() {
     renderPage();
   });
 }
-//revision - created event handler for all the events
+/*revision attempted - created event handler for all the events, but I think I did complete the following with my original submission:
+Did the student create single-purpose event handler functions to handle all events?
+I have single purpose event handler functions that do handle all the events within this app.
+
+I spoke with ThinkChat and they said I should just re-submit it as is.
+
 function eventHandler(event){
   if ($('main').on('click', '.mainPage')){
     startQuiz();
@@ -322,7 +327,8 @@ function eventHandler(event){
   else if($('main').on('click', '.next-question')){
     resumeQuiz();
   }
-}
+}*/
+
 //The main function holding all the functions that need to be initialized!
 function main() {
   renderPage();
