@@ -241,14 +241,14 @@ function addHtmlFeedback() {
 }
 
 
-//simple function that starts the quiz from the main page.
-function startQuiz() {
-  $('main').on('click', '.mainPage', function (event) {
-    event.preventDefault();
-    counter++;
-    renderPage();
-  });
-}
+// //simple function that starts the quiz from the main page.
+// function startQuiz() {
+//   $('main').on('click', '.mainPage', function (event) {
+//     event.preventDefault();
+//     counter++;
+//     renderPage();
+//   });
+// }
 
 //This function renders the page for every aspect.
 function renderPage() {
@@ -264,55 +264,87 @@ function renderPage() {
 }
 
 
-//This function tracks your score on submiting your answer and moves you forward.
-function submitAnswer() {
-  $('main').on('submit', 'form#questions', function (event) {
-    event.preventDefault();
-    let answer = $('input[name=answers]:checked').val();
-    if (store.questions[store.questionNumber].correctAnswer === answer) {
-      isCorrect = true;
-      store.score++;
-      isFeedback = true;
-      renderPage();
-    } else {
-      wrong++;
-      isCorrect = false;
-      isFeedback = true;
-      renderPage();
-    }
-  });
-}
-//This function allows you to resume the quiz after seeing the correct answer to the question you just answered!
-function resumeQuiz() {
-  $('main').on('click', '.next-question', function (event) {
-    event.preventDefault();
-    if (store.questionNumber < 4) {
-      store.questionNumber++;
-      isFeedback = false;
-      renderPage();
-    } else {
-      counter++;
-      isFeedback = false;
-      renderPage();
-    }
-  });
-}
-//This function clears all counters and score and send you back to the start!
-function restartQuiz() {
-  $('main').on('click', '.button-restart-quiz', function (event) {
-    event.preventDefault();
-    store.questionNumber = 0;
-    counter = 1;
-    store.score = 0;
-    wrong = 0;
-    renderPage();
-  });
-}
-/*revision attempted - created event handler for all the events, but I think I did complete the following with my original submission:
+// //This function tracks your score on submiting your answer and moves you forward.
+// function submitAnswer() {
+//   $('main').on('submit', 'form#questions', function (event) {
+//     event.preventDefault();
+//     let answer = $('input[name=answers]:checked').val();
+//     if (store.questions[store.questionNumber].correctAnswer === answer) {
+//       isCorrect = true;
+//       store.score++;
+//       isFeedback = true;
+//       renderPage();
+//     } else {
+//       wrong++;
+//       isCorrect = false;
+//       isFeedback = true;
+//       renderPage();
+//     }
+//   });
+// }
+// //This function allows you to resume the quiz after seeing the correct answer to the question you just answered!
+// function resumeQuiz() {
+//   $('main').on('click', '.next-question', function (event) {
+//     event.preventDefault();
+//     if (store.questionNumber < 4) {
+//       store.questionNumber++;
+//       isFeedback = false;
+//       renderPage();
+//     } else {
+//       counter++;
+//       isFeedback = false;
+//       renderPage();
+//     }
+//   });
+// }
+// //This function clears all counters and score and send you back to the start!
+// function restartQuiz() {
+//   $('main').on('click', '.button-restart-quiz', function (event) {
+//     event.preventDefault();
+//     store.questionNumber = 0;
+//     counter = 1;
+//     store.score = 0;
+//     wrong = 0;
+//     renderPage();
+//   });
+// }
+
+// function eventHandler(event){
+//   if ($('main').on('click', '.mainPage')){
+//     startQuiz();
+//   }
+//   else if ($('main').on('click', '.button-restart-quiz')) {
+//     restartQuiz();
+//   }
+//   else if ($('main').on('submit', 'form#questions')){
+//     submitAnswer();
+//   }
+//   else if($('main').on('click', '.next-question')){
+//     resumeQuiz();
+//   }
+// }
+// function eventHandler(event){
+//   $('main').on('click', '.mainPage'), function (event) {
+//      startQuiz();
+//    }
+//    $('main').on('click', '.button-restart-quiz'), function (event) {
+//      restartQuiz();
+//    }
+//    $('main').on('submit', 'form#questions'), function (event) {
+//      submitAnswer();
+//    }
+//    $('main').on('click', '.next-question'), function (event) {
+//      resumeQuiz();
+//    }
+//  }
+
+/* revision attempted - created event handler for all the events, but I think I did complete the following with my original submission:
 Did the student create single-purpose event handler functions to handle all events?
 I have single purpose event handler functions that do handle all the events within this app.
 
 I spoke with ThinkChat and they said I should just re-submit it as is.
+
+Update as of 5pm EST, below seems like a very clunky way to do it, but it's done. I plan to revert it back to how it was after the submission passes.
 
 function eventHandler(event){
   if ($('main').on('click', '.mainPage')){
@@ -327,15 +359,61 @@ function eventHandler(event){
   else if($('main').on('click', '.next-question')){
     resumeQuiz();
   }
+  
+  
 }*/
+
+function eventHandler() {
+  let startQuiz = $('main').on('click', '.mainPage', function (event) {
+    event.preventDefault();
+    counter++;
+    renderPage();
+  });
+  let submitAnswer = $('main').on('submit', 'form#questions', function (event) {
+    event.preventDefault();
+    let answer = $('input[name=answers]:checked').val();
+    if (store.questions[store.questionNumber].correctAnswer === answer) {
+      isCorrect = true;
+      store.score++;
+      isFeedback = true;
+      renderPage();
+    } else {
+      wrong++;
+      isCorrect = false;
+      isFeedback = true;
+      renderPage();
+    }
+  });
+  let resumeQuiz = $('main').on('click', '.next-question', function (event) {
+    event.preventDefault();
+    if (store.questionNumber < 4) {
+      store.questionNumber++;
+      isFeedback = false;
+      renderPage();
+    } else {
+      counter++;
+      isFeedback = false;
+      renderPage();
+    }
+  });
+  let restartQuiz = $('main').on('click', '.button-restart-quiz', function (event) {
+    event.preventDefault();
+    store.questionNumber = 0;
+    counter = 1;
+    store.score = 0;
+    wrong = 0;
+    renderPage();
+  });
+}
 
 //The main function holding all the functions that need to be initialized!
 function main() {
   renderPage();
-  startQuiz();
-  submitAnswer();
-  resumeQuiz();
-  restartQuiz();
+  eventHandler();
+ //startQuiz();
+  //submitAnswer();
+ //resumeQuiz();
+ //restartQuiz();
 }
 
 $(main);
