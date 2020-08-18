@@ -1,5 +1,27 @@
+/*
+create a gist file containing links
+to the live GitHub pages site
+and the repository, 
+as well as their pair's name 
+- yes, thats how project was accessed
+
+Is the user able to use their keyboard to navigate through the app?
+- yes tested this w/ TA
+*/
+
+
 //Our data including questions!
 'use strict';
+/*
+Did the student create a global `store` object 
+that contains all of the data necessary
+to render the application?
+
+- yes, SEE below 
+- also took feedback from previous grader
+  and added isCorrect and isFeedback to `store` obj
+
+*/
 const store = {
 
   questions: [
@@ -55,14 +77,15 @@ const store = {
     },
   ],
   questionNumber: 0,
-  score: 0
+  score: 0,
+  isFeedback: false,
+  isCorrect: true
 };
 
 let counter = 1;
 
 let wrong = 0;
 
-let isCorrect = true;
 
 let pictureArr = [`<img src= 'photos/dwight-and-fam.jpg' alt='Dwight and his family'></img>`,
   `<img src="photos/kelly-ryan.png" alt='Kelly and Ryan'></img>`,
@@ -71,9 +94,16 @@ let pictureArr = [`<img src= 'photos/dwight-and-fam.jpg' alt='Dwight and his fam
   `<img src='photos/wedding-question.jpg' alt='Wedding Question'></img>`
 ];
 
-let isFeedback = false;
+/*
+Did the student create template generation functions
+to generate the HTML content?
+These functions should be single-purpose
+functions whose return values are HTML template strings.
 
-
+- yes, SEE function addHTML,
+       function addHtmlFeedback,
+        function results
+*/
 
 // Adds html elements to be rendered by renderPage
 function addHtml() {
@@ -89,6 +119,21 @@ function addHtml() {
 </div>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>
 `;
+
+/*
+Are the questions and answers rendered in a <form> tag? 
+    - yes, SEE form id='questions'
+Did the student give their users feedback on which question they are on? 
+    - yes, SEE <h3><span>Question #${store.questionNumber + 1} / 5</h3>
+Did the student give their users feedback on what their current score is?
+    - yes, SEE <h3>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</h3>
+Did the student disallow users from being able to skip questions?
+    - yess, SEE "required" on each input tag
+
+*/
+
+
+
 
   let questionPage = `<div class ='question-box'>
 ${questionPhoto()}
@@ -145,6 +190,10 @@ function questionPhoto() {
 
 }
 
+/*
+Did the student give their user an overall score at the end of the quiz?
+    - yes, SEE results function
+*/
 
 //function that gives goodResult vs badResult on last page
 function results() {
@@ -179,6 +228,15 @@ function results() {
   }
 
 }
+
+/*
+Did the student give users feedback when they got an answer wrong?
+    - yes, SEE <p>Great Job! ${question.correctAnswer} is correct!<p>
+    - yes, SEE <p>Oh no, you got it wrong! ${question.correctAnswer} is the correct answer.</p>
+the student include the ability to move to the next question after receiving feedback?
+    - yes, SEE <button id= "next" type= "submit" class= 'next-question'>Next Question!</button>
+    - yes, ALSO SEE resumeQuiz event handler below (line __)
+*/
 
 // adds html elements to be added by renderFeedback
 function addHtmlFeedback() {
@@ -226,13 +284,13 @@ function addHtmlFeedback() {
 <h3>Your Score: ${store.score} Correct, and ${wrong} Incorrect!</h3>
 <div class = 'bottom'><h3>Produced by Mark Marcello & Caleb Jackson<h3><p>Questions and Photos provided by TheQuiz.com</p></div>`;
 
-  if (isCorrect === true && store.questionNumber === 4) {
+  if (store.isCorrect === true && store.questionNumber === 4) {
     return getResultsButtonCorrect;
   }
-  else if (isCorrect === false && store.questionNumber === 4) {
+  else if (store.isCorrect === false && store.questionNumber === 4) {
     return getResultsButtonIncorrect;
   }
-  else if (isCorrect === true) {
+  else if (store.isCorrect === true) {
     return correct;
   }
   else {
@@ -240,128 +298,57 @@ function addHtmlFeedback() {
   }
 }
 
+/*
+Did the student create at least one render function
+(that may or may not call other rendering functions)
+that conditionally replaces the content 
+of the <main> tag based upon the properties held 
+within the `store`?
 
-// //simple function that starts the quiz from the main page.
-// function startQuiz() {
-//   $('main').on('click', '.mainPage', function (event) {
-//     event.preventDefault();
-//     counter++;
-//     renderPage();
-//   });
-// }
+- yes, SEE $('main').html(html) 
+
+Is all JavaScript that updates the DOM of the page 
+located inside of a rendering function?
+
+- yes, SEE function addHTML,
+       function addHtmlFeedback,
+        function results 
+
+*/
 
 //This function renders the page for every aspect.
 function renderPage() {
-  if (isFeedback === false) {
+  if (store.isFeedback === false) {
     let html = addHtml();
     $('main').html(html);
   }
-  if (isFeedback === true) {
+  if (store.isFeedback === true) {
     let html = addHtmlFeedback();
     $('main').html(html);
   }
 
 }
 
+/*
+Did the student create single-purpose 
+event handler functions to handle all events?
 
-// //This function tracks your score on submiting your answer and moves you forward.
-// function submitAnswer() {
-//   $('main').on('submit', 'form#questions', function (event) {
-//     event.preventDefault();
-//     let answer = $('input[name=answers]:checked').val();
-//     if (store.questions[store.questionNumber].correctAnswer === answer) {
-//       isCorrect = true;
-//       store.score++;
-//       isFeedback = true;
-//       renderPage();
-//     } else {
-//       wrong++;
-//       isCorrect = false;
-//       isFeedback = true;
-//       renderPage();
-//     }
-//   });
-// }
-// //This function allows you to resume the quiz after seeing the correct answer to the question you just answered!
-// function resumeQuiz() {
-//   $('main').on('click', '.next-question', function (event) {
-//     event.preventDefault();
-//     if (store.questionNumber < 4) {
-//       store.questionNumber++;
-//       isFeedback = false;
-//       renderPage();
-//     } else {
-//       counter++;
-//       isFeedback = false;
-//       renderPage();
-//     }
-//   });
-// }
-// //This function clears all counters and score and send you back to the start!
-// function restartQuiz() {
-//   $('main').on('click', '.button-restart-quiz', function (event) {
-//     event.preventDefault();
-//     store.questionNumber = 0;
-//     counter = 1;
-//     store.score = 0;
-//     wrong = 0;
-//     renderPage();
-//   });
-// }
+- yes per feedback from previous grader,
+  before all the functions were seperate
+  then called w/in the main function.
 
-// function eventHandler(event){
-//   if ($('main').on('click', '.mainPage')){
-//     startQuiz();
-//   }
-//   else if ($('main').on('click', '.button-restart-quiz')) {
-//     restartQuiz();
-//   }
-//   else if ($('main').on('submit', 'form#questions')){
-//     submitAnswer();
-//   }
-//   else if($('main').on('click', '.next-question')){
-//     resumeQuiz();
-//   }
-// }
-// function eventHandler(event){
-//   $('main').on('click', '.mainPage'), function (event) {
-//      startQuiz();
-//    }
-//    $('main').on('click', '.button-restart-quiz'), function (event) {
-//      restartQuiz();
-//    }
-//    $('main').on('submit', 'form#questions'), function (event) {
-//      submitAnswer();
-//    }
-//    $('main').on('click', '.next-question'), function (event) {
-//      resumeQuiz();
-//    }
-//  }
+Did the student update `store` properties 
+only within event handler functions?
 
-/* revision attempted - created event handler for all the events, but I think I did complete the following with my original submission:
-Did the student create single-purpose event handler functions to handle all events?
-I have single purpose event handler functions that do handle all the events within this app.
+- yes, for example submitAnswer tracks your score
+  & the restartQuiz clears your score & restarts counters
 
-I spoke with ThinkChat and they said I should just re-submit it as is.
+Did the student call their `render()` function 
+anytime they updated a `store` property?
 
-Update as of 5pm EST, below seems like a very clunky way to do it, but it's done. I plan to revert it back to how it was after the submission passes.
+- yes, for example to update the score (see line __)
 
-function eventHandler(event){
-  if ($('main').on('click', '.mainPage')){
-    startQuiz();
-  }
-  else if ($('main').on('click', '.button-restart-quiz')) {
-    restartQuiz();
-  }
-  else if ($('main').on('submit', 'form#questions')){
-    submitAnswer();
-  }
-  else if($('main').on('click', '.next-question')){
-    resumeQuiz();
-  }
-  
-  
-}*/
+*/
 
 function eventHandler() {
   let startQuiz = $('main').on('click', '.mainPage', function (event) {
@@ -369,33 +356,50 @@ function eventHandler() {
     counter++;
     renderPage();
   });
+
+  //This function tracks your score on submiting your answer and moves you forward.
   let submitAnswer = $('main').on('submit', 'form#questions', function (event) {
     event.preventDefault();
     let answer = $('input[name=answers]:checked').val();
     if (store.questions[store.questionNumber].correctAnswer === answer) {
-      isCorrect = true;
+      store.isCorrect = true;
       store.score++;
-      isFeedback = true;
+      store.isFeedback = true;
       renderPage();
     } else {
       wrong++;
-      isCorrect = false;
-      isFeedback = true;
+      store.isCorrect = false;
+      store.isFeedback = true;
       renderPage();
     }
   });
+
+  /*
+Did the student include the ability to move to the next question after receiving feedback? 
+    - yes, SEE resumeQuiz event handler below
+    - yes, ALSO SEE <button id= "next" type= "submit" class= 'next-question'>Next Question!</button> (line __)
+*/
+
+//This function allows you to resume the quiz after seeing the correct answer to the question you just answered!
   let resumeQuiz = $('main').on('click', '.next-question', function (event) {
     event.preventDefault();
     if (store.questionNumber < 4) {
       store.questionNumber++;
-      isFeedback = false;
+      store.isFeedback = false;
       renderPage();
     } else {
       counter++;
-      isFeedback = false;
+      store.isFeedback = false;
       renderPage();
     }
   });
+
+  /*
+Did the student give their user the ability to start the quiz over without reloading the page?
+    - yes, SEE restart quiz function
+*/
+
+//This function clears all counters and score and send you back to the start!
   let restartQuiz = $('main').on('click', '.button-restart-quiz', function (event) {
     event.preventDefault();
     store.questionNumber = 0;
@@ -410,10 +414,6 @@ function eventHandler() {
 function main() {
   renderPage();
   eventHandler();
- //startQuiz();
-  //submitAnswer();
- //resumeQuiz();
- //restartQuiz();
 }
 
 $(main);
